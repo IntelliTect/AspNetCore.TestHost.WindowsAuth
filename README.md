@@ -12,7 +12,7 @@ There is currently no NuGet package for this project. Open an issue if this proj
 ## Usage
 
 There are two main ways to use this library:
-1) Use the provided `TestServer` fixture that will add the required services yourself.
+1) Use the provided `TestServer` fixture that will add the required services for you.
 2) Use your own fixture and build a `WebHostBuilder` and `TestServer` yourself.
 
 ### Option 1 - Provided Builder & Fixture
