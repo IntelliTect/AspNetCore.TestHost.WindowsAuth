@@ -36,11 +36,11 @@ For more info about overridable members of `WindowsAuthServerFixture`, view this
 Then, in an `xunit` test:
 
 ``` c#
-public class MyTest : IClassFixture<MyProjectServerFixture>
+public class MyTests : IClassFixture<MyProjectServerFixture>
 {
     private readonly TestServer _server;
 
-    public MyTest(MyProjectServerFixture fixture)
+    public MyTests(MyProjectServerFixture fixture)
     {
         _server = fixture.Server;
     }
