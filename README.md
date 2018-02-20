@@ -11,6 +11,12 @@ There is currently no NuGet package for this project. Open an issue if this proj
 
 ## Usage
 
+There are two main ways to use this library:
+1) Use the provided `TestServer` fixture that will add the required services yourself.
+2) Use your own fixture and build a `WebHostBuilder` and `TestServer` yourself.
+
+### Option 1 - Provided Builder & Fixture
+
 This project is designed to be used with `xunit`, but has no hard dependencies on it. The below example assumes `xunit` usage, but could easily be adapted for other test frameworks.
 
 In your test project:
@@ -60,6 +66,21 @@ public class MyTests : IClassFixture<MyProjectServerFixture>
 
 ```
 
+### Option 2 - Bring Your Own Builder
+
+If the provided fixture doesn't fit your needs, or you already have your own fixture for a `TestServer`/`WebHostBuilder`, you can simply add the needed services yourself:
+
+``` c#
+var builder = new WebHostBuilder()
+    // Your method calls go here...
+    .ConfigureServices(services =>
+    {
+        services.AddWindowsAuthenticationForTesting();
+
+        // ONLY IF AuthenticationMiddleware (UseAuthentication) isn't normally part of your pipeline:
+        services.AddTransient<IStartupFilter, AddAuthenticationStartupFilter>();
+    });
+```
 
 ## Troubleshooting
 

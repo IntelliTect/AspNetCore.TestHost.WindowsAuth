@@ -8,7 +8,7 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
     /// ASP.NET Core IStartupFilter for ensuring that ASP.NET Core Authentication is added to the request pipeline
     /// of the application when running in an integration test project.
     /// </summary>
-    internal class AddAuthenticationStartupFilter : IStartupFilter
+    public class AddAuthenticationStartupFilter : IStartupFilter
     {
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
