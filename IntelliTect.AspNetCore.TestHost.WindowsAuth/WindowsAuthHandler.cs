@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -41,10 +40,8 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
                 
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(user, AuthenticationScheme)));
             }
-            else
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
 
         public Task ChallengeAsync(AuthenticationProperties properties)
@@ -61,6 +58,7 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 
         public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
         {
+            // TODO: Since scheme isn't being used to create the AuthenticationTicket, do we need to keep it around?
             _scheme = scheme;
             _context = context;
             return Task.CompletedTask;

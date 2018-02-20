@@ -6,8 +6,8 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
     public static class WindowsAuthServiceCollectionExtensions
     {
         /// <summary>
-        /// Add services and configuration needed for <see cref="WindowsAuthenticationHandler"/> 
-        /// to work for integration tests using <see cref="Microsoft.AspNetCore.TestHost.TestServer"/>
+        ///     Add services and configuration needed for <see cref="WindowsAuthenticationHandler" />
+        ///     to work for integration tests using <see cref="Microsoft.AspNetCore.TestHost.TestServer" />
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
