@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     /// <summary>
     /// A base fixture for providing a <see cref="TestServer"/> for integration tests that has Windows Auth capabilities.
@@ -33,7 +33,7 @@ namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
         /// The path to the content root of the web project, relative to the executing assembly of the test project.
         /// Defaults to $"../../../../{ApplicationName}".
         /// </summary>
-        public virtual string ContentRoot => $"../../../../{ApplicationName}";
+        protected virtual string ContentRoot => $"../../../../{ApplicationName}";
 
         /// <summary>
         /// Name of the environment to be used by the web host.

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     /// <summary>
     /// ASP.NET Core IStartupFilter for ensuring that ASP.NET Core Authentication is added to the request pipeline

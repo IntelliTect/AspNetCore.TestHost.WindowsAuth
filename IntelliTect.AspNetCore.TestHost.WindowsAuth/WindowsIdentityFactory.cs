@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     internal static class WindowsIdentityFactory 
     {

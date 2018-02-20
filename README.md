@@ -1,4 +1,4 @@
-# IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+# IntelliTect.AspNetCore.TestHost.WindowsAuth
 
 This project aims to emulate the functionality provided by IIS Integration in an ASP.NET Core project that uses Windows Authentication for the purposes of integration testing with ASP.NET Core's `TestServer` from `Microsoft.AspNetCore.TestHost`.
 
@@ -52,7 +52,7 @@ public class MyTests : IClassFixture<MyProjectServerFixture>
         // Choose one:
         client = _server.ClientForAnonymous();
         client = _server.ClientForCurrentUser(); // Effectively: UseDefaultCredentials = true
-        client = _server.ClientForUser(new NetworkCredential("userName", new SecureString("password"), "DOMAIN"));
+        client = _server.ClientForUser(new NetworkCredential("userName", "password", "DOMAIN"));
 
         // Make requests against the HttpClient. The requests will be appropriately authenticated when they are handled by your web application, despite not running with IIS.
     }

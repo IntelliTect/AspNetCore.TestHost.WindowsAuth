@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     /// <summary>
     /// ASP.NET Core Authentication handler for authenticating as arbitrary users for integration tests.

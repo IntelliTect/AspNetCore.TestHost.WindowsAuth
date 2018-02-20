@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     public static class WindowsAuthServiceCollectionExtensions
     {

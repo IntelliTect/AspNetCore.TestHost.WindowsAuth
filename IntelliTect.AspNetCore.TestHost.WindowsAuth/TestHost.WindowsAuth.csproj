@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- 
+      This library targets netstandard because there are some bizarre issues 
+      with binding redirects and missing methods on full framework.
+      However, it isn't going to work on a non-windows platform.
+      https://github.com/aspnet/Hosting/issues/926
+    -->
+    <TargetFrameworks>netstandard20</TargetFrameworks>
+    <RootNamespace>IntelliTect.AspNetCore.TestHost.WindowsAuth</RootNamespace>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
+  </ItemGroup>
+</Project>

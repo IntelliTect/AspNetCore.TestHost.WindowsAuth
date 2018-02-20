@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
 
-namespace IntelliTect.AspNetCore.IntegrationTesting.WindowsAuth
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
     public static class WindowsAuthTestServerExtensions
     {
