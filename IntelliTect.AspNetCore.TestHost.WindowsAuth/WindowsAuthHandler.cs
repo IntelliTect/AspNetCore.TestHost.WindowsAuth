@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
@@ -21,7 +21,6 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         public const string CredentialKeyHeader = "X-IntegrationTest-WindowsCredentialKey";
         public const string AuthenticationScheme = "IntegrationTestWindowsAuth";
 
-        private AuthenticationScheme _scheme;
         private HttpContext _context;
 
         public Task<AuthenticateResult> AuthenticateAsync()
@@ -58,8 +57,6 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 
         public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
         {
-            // TODO: Since scheme isn't being used to create the AuthenticationTicket, do we need to keep it around?
-            _scheme = scheme;
             _context = context;
             return Task.CompletedTask;
         }

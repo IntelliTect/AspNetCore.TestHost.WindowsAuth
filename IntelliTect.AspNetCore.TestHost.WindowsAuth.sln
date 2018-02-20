@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHost.WindowsAuth", "IntelliTect.AspNetCore.TestHost.WindowsAuth\TestHost.WindowsAuth.csproj", "{90645B70-9636-42C2-8DE8-3249B7EEFF18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHost.WindowsAuth.Test", "IntelliTect.AspNetCore.TestHost.WindowsAuth.Test\TestHost.WindowsAuth.Test.csproj", "{CFB3CF56-4510-46AB-9A8B-ADB17A782287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelliTect.AspNetCore.TestHost.WindowsAuth.WebExample", "IntelliTect.AspNetCore.TestHost.WindowsAuth.WebExample\TestHost.WindowsAuth.WebExample.csproj", "{4C2841B5-793F-4021-ACB1-8B680060C545}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHost.WindowsAuth.WebExample", "IntelliTect.AspNetCore.TestHost.WindowsAuth.WebExample\TestHost.WindowsAuth.WebExample.csproj", "{4C2841B5-793F-4021-ACB1-8B680060C545}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53989A80-E732-4DE8-AD8A-1875389BE3A0}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

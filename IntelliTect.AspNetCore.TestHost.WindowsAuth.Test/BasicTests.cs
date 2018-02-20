@@ -1,46 +1,43 @@
-using IntelliTect.AspNetCore.TestHost.WindowsAuth;
-using IntelliTect.AspNetCore.TestHost.WindowsAuth.Test;
-using Microsoft.AspNetCore.TestHost;
-using System;
 using System.Net;
-using System.Security;
+using System.Net.Http;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Xunit;
 
-namespace TestHost.WindowsAuth.Test
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth.Test
 {
     public class BasicTests : IClassFixture<WebExampleServerFixture>
     {
-        private readonly TestServer server;
-
         public BasicTests(WebExampleServerFixture fixture)
         {
-            server = fixture.Server;
+            _server = fixture.Server;
+        }
+
+        private readonly TestServer _server;
+
+        [Fact]
+        public async Task AnonymousRequest_FailsForAuthenticatedEndpoint()
+        {
+            HttpClient client = _server.ClientForAnonymous();
+            HttpResponseMessage result = await client.GetAsync("/api/values/whoami");
+            Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);
         }
 
         [Fact]
         public async Task AnonymousRequest_SucceedsForAnonymousEndpoint()
         {
-            var client = server.ClientForAnonymous();
-            var result = await client.GetAsync("/api/values/anonymous");
+            HttpClient client = _server.ClientForAnonymous();
+            HttpResponseMessage result = await client.GetAsync("/api/values/anonymous");
             Assert.True(result.IsSuccessStatusCode);
             Assert.Equal("success", await result.Content.ReadAsStringAsync());
         }
 
         [Fact]
-        public async Task AnonymousRequest_FailsForAuthenticatedEndpoint()
-        {
-            var client = server.ClientForAnonymous();
-            var result = await client.GetAsync("/api/values/whoami");
-            Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);
-        }
-
-        [Fact]
         public async Task CurrentUserRequest_SucceedsForAuthenticatedEndpoint()
         {
-            var client = server.ClientForCurrentUser();
-            var result = await client.GetAsync("/api/values/whoami");
+            HttpClient client = _server.ClientForCurrentUser();
+            HttpResponseMessage result = await client.GetAsync("/api/values/whoami");
             Assert.True(result.IsSuccessStatusCode);
             Assert.Equal(WindowsIdentity.GetCurrent().Name, await result.Content.ReadAsStringAsync());
         }
@@ -48,12 +45,12 @@ namespace TestHost.WindowsAuth.Test
         [Fact(Skip = "Ad-hoc test for authenticating with specific username/password. Requires real credentials.")]
         public async Task SpecificUserRequest_SucceedsForAuthenticatedEndpoint()
         {
-            string userName = "USERNAME";
-            string password = "PASSWORD";
-            string domain = "DOMAIN";
+            var userName = "USERNAME";
+            var password = "PASSWORD";
+            var domain = "DOMAIN";
 
-            var client = server.ClientForUser(new NetworkCredential(userName, password, domain));
-            var result = await client.GetAsync("/api/values/whoami");
+            HttpClient client = _server.ClientForUser(new NetworkCredential(userName, password, domain));
+            HttpResponseMessage result = await client.GetAsync("/api/values/whoami");
             Assert.True(result.IsSuccessStatusCode);
             Assert.Equal($"{domain}\\{userName}", await result.Content.ReadAsStringAsync());
         }

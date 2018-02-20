@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
@@ -50,7 +49,7 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         protected virtual Uri BaseAddress => new Uri("http://localhost/");
 
         /// <summary>
-        ///     Whether or not the standard <see cref="AuthenticationMiddleware" /> should be added to the request pipeline
+        ///     Whether or not the standard <see cref="Microsoft.AspNetCore.Authentication.AuthenticationMiddleware" /> should be added to the request pipeline
         ///     (by calling
         ///     <see
         ///         cref="Microsoft.AspNetCore.Builder.AuthAppBuilderExtensions.UseAuthentication(Microsoft.AspNetCore.Builder.IApplicationBuilder)" />
