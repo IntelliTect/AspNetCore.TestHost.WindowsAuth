@@ -15,7 +15,7 @@ There are two main ways to use this library:
 1) Use the provided `TestServer` fixture that will add the required services for you.
 2) Use your own fixture and build a `WebHostBuilder` and `TestServer` yourself.
 
-### Option 1 - Provided Builder & Fixture
+### Option 1 - Use Provided Builder & Fixture
 
 This project is designed to be used with `xunit`, but has no hard dependencies on it. The below example assumes `xunit` usage, but could easily be adapted for other test frameworks.
 
@@ -37,7 +37,25 @@ public class MyProjectServerFixture : WindowsAuthServerFixture<Startup>
 
 For more info about overridable members of `WindowsAuthServerFixture`, view this project's source code.
 
+### Option 2 - Bring Your Own Builder
 
+If the provided fixture doesn't fit your needs, or you already have your own fixture for a `TestServer`/`WebHostBuilder`, you can simply add the needed services yourself:
+
+``` c#
+var builder = new WebHostBuilder()
+    // Your method calls go here...
+    .ConfigureServices(services =>
+    {
+        services.AddWindowsAuthenticationForTesting();
+
+        // ONLY IF AuthenticationMiddleware (UseAuthentication) isn't normally part of your pipeline:
+        services.AddTransient<IStartupFilter, AddAuthenticationStartupFilter>();
+    });
+```
+
+You would then create a test fixture (or equivalent for your preferred test framework) that would expose a `TestServer` created from this `WebHostBuilder`.
+
+### Usage in Tests
 
 Then, in an `xunit` test:
 
@@ -66,21 +84,6 @@ public class MyTests : IClassFixture<MyProjectServerFixture>
 
 ```
 
-### Option 2 - Bring Your Own Builder
-
-If the provided fixture doesn't fit your needs, or you already have your own fixture for a `TestServer`/`WebHostBuilder`, you can simply add the needed services yourself:
-
-``` c#
-var builder = new WebHostBuilder()
-    // Your method calls go here...
-    .ConfigureServices(services =>
-    {
-        services.AddWindowsAuthenticationForTesting();
-
-        // ONLY IF AuthenticationMiddleware (UseAuthentication) isn't normally part of your pipeline:
-        services.AddTransient<IStartupFilter, AddAuthenticationStartupFilter>();
-    });
-```
 
 ## Troubleshooting
 
