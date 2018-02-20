@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.TestHost;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
@@ -51,7 +48,7 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         /// Set the <see cref="HttpClient"/> to make requests using the specified user.
         /// </summary>
         /// <param name="client">The client that should start making user-faked requests.</param>
-        /// <param name="credential">The credentials of the user that will be logged in.</param>
+        /// <param name="credentials">The credentials of the user that will be logged in.</param>
         /// <returns>The <see cref="HttpClient"/> that was passed in.</returns>
         public static HttpClient SetWindowsAuthHeader(this HttpClient client, NetworkCredential credentials)
         {

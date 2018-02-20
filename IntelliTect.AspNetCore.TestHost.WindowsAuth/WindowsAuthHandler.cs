@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
@@ -22,7 +21,6 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         public const string CredentialKeyHeader = "X-IntegrationTest-WindowsCredentialKey";
         public const string AuthenticationScheme = "IntegrationTestWindowsAuth";
 
-        private AuthenticationScheme _scheme;
         private HttpContext _context;
 
         public Task<AuthenticateResult> AuthenticateAsync()
@@ -41,10 +39,8 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
                 
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(user, AuthenticationScheme)));
             }
-            else
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
+
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
 
         public Task ChallengeAsync(AuthenticationProperties properties)
@@ -61,7 +57,6 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 
         public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
         {
-            _scheme = scheme;
             _context = context;
             return Task.CompletedTask;
         }
