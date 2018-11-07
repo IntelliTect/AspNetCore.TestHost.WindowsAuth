@@ -1,6 +1,6 @@
 # IntelliTect.AspNetCore.TestHost.WindowsAuth
 
-This project aims to emulate the functionality provided by IIS Integration in an ASP.NET Core project that uses Windows Authentication for the purposes of integration testing with ASP.NET Core's `TestServer` from `Microsoft.AspNetCore.TestHost`.
+This project aims to emulate the functionality provided by IIS Integration in an ASP.NET Core project that uses Windows Authentication for the purposes of testing with ASP.NET Core's `TestServer` from `Microsoft.AspNetCore.TestHost`.
 
 It provides real, authenticated Windows Auth capabilities - not just a mock of such. The `WindowsIdentity` of the `WindowsPrincipal` that will be signed into your application can use all normal behaviors, including `.Impersonate()`.
 
