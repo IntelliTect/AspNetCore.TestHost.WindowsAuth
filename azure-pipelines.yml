@@ -10,31 +10,34 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
   inputs:
     command: build
     arguments: -c $(buildConfiguration)
 
 - task: DotNetCoreCLI@2
   condition: succeeded()
+  displayName: 'dotnet test'
   inputs:
     command: test
     arguments: -c $(buildConfiguration)
     projects: '**/*Test.csproj'
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   condition: succeeded()
+  displayName: 'dotnet pack'
   inputs: 
     command: pack
     configuration: $(buildConfiguration)
-    packagesToPack: '**/*TestHost.WindowsAuth.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: version
+    arguments: --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:Version=$(version)
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
   condition: succeeded()
 
 - task: NuGetCommand@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: 'nuget push'
   inputs:
     command: push
     nuGetFeedType: external
