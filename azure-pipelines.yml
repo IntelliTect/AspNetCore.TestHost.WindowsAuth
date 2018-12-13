@@ -9,16 +9,25 @@ variables:
   version: 2.2.0
 
 steps:
-- script: |
-    dotnet build --configuration $(buildConfiguration)
-    dotnet test IntelliTect.AspNetCore.TestHost.WindowsAuth.Test --configuration $(buildConfiguration) --logger trx
-    dotnet pack /p:PackageVersion=$(version) --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
-
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
+- task: DotNetCoreCLI@2
   inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    command: build
+
+- task: DotNetCoreCLI@2
+  condition: succeeded()
+  inputs:
+    command: test
+    projects: '**/*Test.csproj'
+
+- task: NuGetCommand@2
+  condition: succeeded()
+  inputs: 
+    command: pack
+    versioningScheme: byEnvVar
+    versionEnvVar: version
+
+- task: PublishBuildArtifacts@1
+  condition: succeeded()
 
 - task: NuGetCommand@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

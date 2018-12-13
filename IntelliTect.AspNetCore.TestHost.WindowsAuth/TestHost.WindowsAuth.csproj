@@ -9,7 +9,6 @@
     <TargetFrameworks>netstandard20</TargetFrameworks>
     <RootNamespace>IntelliTect.AspNetCore.TestHost.WindowsAuth</RootNamespace>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/IntelliTect/AspNetCore.TestHost.WindowsAuth</PackageProjectUrl>
     <Copyright>© IntelliTect 2018</Copyright>
