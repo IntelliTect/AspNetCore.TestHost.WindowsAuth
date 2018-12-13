@@ -12,17 +12,21 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
+    configuration: $(buildConfiguration)
 
 - task: DotNetCoreCLI@2
   condition: succeeded()
   inputs:
     command: test
+    configuration: $(buildConfiguration)
     projects: '**/*Test.csproj'
 
 - task: NuGetCommand@2
   condition: succeeded()
   inputs: 
     command: pack
+    configuration: $(buildConfiguration)
+    packagesToPack: '**/TestHost.WindowsAuth.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: version
 
