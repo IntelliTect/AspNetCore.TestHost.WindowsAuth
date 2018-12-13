@@ -1,8 +1,22 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
+﻿// Copyright 2018 IntelliTect
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
@@ -14,20 +28,16 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
     public abstract class WindowsAuthServerFixture<TStartup> : IDisposable
         where TStartup : class
     {
-        protected WindowsAuthServerFixture()
-        {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Server = CreateServer();
-        }
+        private TestServer _server;
 
         /// <summary>
         ///     The <see cref="TestServer" /> instance that requests can be made against.
         /// </summary>
-        public TestServer Server { get; }
+        public TestServer Server => _server ?? (_server = CreateServer());
 
         /// <summary>
         ///     The name of the application - e.g. "IntelliTect.Coalesce.Web".
-        ///     Used the calulate <see cref="ContentRoot" /> assuming web and test projects are in the same location.
+        ///     Used to calculate <see cref="ContentRoot" /> assuming web and test projects are in the same location.
         ///     Should match the name of the directory that holds the web project.
         /// </summary>
         protected abstract string ApplicationName { get; }
@@ -49,7 +59,8 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         protected virtual Uri BaseAddress => new Uri("http://localhost/");
 
         /// <summary>
-        ///     Whether or not the standard <see cref="Microsoft.AspNetCore.Authentication.AuthenticationMiddleware" /> should be added to the request pipeline
+        ///     Whether or not the standard <see cref="Microsoft.AspNetCore.Authentication.AuthenticationMiddleware" /> should be
+        ///     added to the request pipeline
         ///     (by calling
         ///     <see
         ///         cref="Microsoft.AspNetCore.Builder.AuthAppBuilderExtensions.UseAuthentication(Microsoft.AspNetCore.Builder.IApplicationBuilder)" />
@@ -66,7 +77,10 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing) Server?.Dispose();
+            if (disposing)
+            {
+                Server?.Dispose();
+            }
         }
 
         /// <summary>
@@ -85,7 +99,6 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
         ///     Call extension methods in <see cref="WindowsAuthTestServerExtensions" /> to get
         ///     <see cref="System.Net.Http.HttpClient" /> instances that will behave as specific Windows users.
         /// </summary>
-        /// <returns></returns>
         protected virtual TestServer CreateServer()
         {
             IWebHostBuilder builder = GetWebHostBuilder()
@@ -94,7 +107,9 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
                     services.AddWindowsAuthenticationForTesting();
 
                     if (AddAuthenticationMiddleware)
+                    {
                         services.AddTransient<IStartupFilter, AddAuthenticationStartupFilter>();
+                    }
                 });
 
             return new TestServer(builder)
