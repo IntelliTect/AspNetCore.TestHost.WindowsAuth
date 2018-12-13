@@ -12,13 +12,13 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
-    configuration: $(buildConfiguration)
+    arguments: -c $(buildConfiguration)
 
 - task: DotNetCoreCLI@2
   condition: succeeded()
   inputs:
     command: test
-    configuration: $(buildConfiguration)
+    arguments: -c $(buildConfiguration)
     projects: '**/*Test.csproj'
 
 - task: NuGetCommand@2
