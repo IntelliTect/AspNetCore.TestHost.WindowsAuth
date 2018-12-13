@@ -1,0 +1,30 @@
+# Build ASP.NET Core project using Azure Pipelines
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
+
+pool:
+  vmImage: 'vs2017-win2016'
+  
+variables:
+  buildConfiguration: 'Release'
+  version: 2.2.$(rev:.r)
+
+steps:
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet test IntelliTect .AspNetCore.TestHost.WindowsAuth.Test --configuration $(buildConfiguration) --logger trx
+    dotnet pack /p:PackageVersion=$(version) --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: NuGetCommand@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: '<Name of the NuGet service connection>'
+    versioningScheme: byEnvVar
+    versionEnvVar: version

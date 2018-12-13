@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
+    /// <inheritdoc />
     /// <summary>
     ///     ASP.NET Core Authentication handler for authenticating as arbitrary users for integration tests.
     ///     Provides behavior similar to the ASP.NET Core IIS integration AuthenticationHandler.
