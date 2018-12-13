@@ -11,7 +11,7 @@ variables:
 steps:
 - script: |
     dotnet build --configuration $(buildConfiguration)
-    dotnet test IntelliTect .AspNetCore.TestHost.WindowsAuth.Test --configuration $(buildConfiguration) --logger trx
+    dotnet test IntelliTect.AspNetCore.TestHost.WindowsAuth.Test --configuration $(buildConfiguration) --logger trx
     dotnet pack /p:PackageVersion=$(version) --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
 
 - task: PublishTestResults@2
