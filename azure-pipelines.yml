@@ -26,7 +26,7 @@ steps:
   inputs: 
     command: pack
     configuration: $(buildConfiguration)
-    packagesToPack: '**/TestHost.WindowsAuth.csproj'
+    packagesToPack: '**/*TestHost.WindowsAuth.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: version
 
