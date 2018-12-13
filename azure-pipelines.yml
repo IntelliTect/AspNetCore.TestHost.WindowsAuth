@@ -29,6 +29,7 @@ steps:
   inputs: 
     command: pack
     configuration: $(buildConfiguration)
+    verbosityPack: minimal
     arguments: --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:Version=$(version)
 
 - task: PublishBuildArtifacts@1
