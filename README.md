@@ -7,7 +7,9 @@ It provides real, authenticated Windows Auth capabilities - not just a mock of s
 
 ## Getting Started
 
-There is currently no NuGet package for this project. Open an issue if this project is of interest to you and we'll look at publishing a NuGet package. Otherwise, you can add this project as a git submodule to try it out.
+![Build Status](https://intellitect.visualstudio.com/IntelliTect/_apis/build/status/IntelliTect.AspNetCore.TestHost.WindowsAuth-Nuget-Publish?branchName=master)]
+
+Visit [Nuget.org](https://www.nuget.org/packages/IntelliTect.AspNetCore.TestHost.WindowsAuth) to pull this library into your project as a dependency.
 
 ## Usage
 

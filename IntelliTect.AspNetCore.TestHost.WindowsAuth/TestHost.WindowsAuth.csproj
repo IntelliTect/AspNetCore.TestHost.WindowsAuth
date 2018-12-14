@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <!-- 
       This library targets netstandard because there are some bizarre issues 
@@ -9,15 +9,33 @@
     <TargetFrameworks>netstandard20</TargetFrameworks>
     <RootNamespace>IntelliTect.AspNetCore.TestHost.WindowsAuth</RootNamespace>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/IntelliTect/AspNetCore.TestHost.WindowsAuth</PackageProjectUrl>
+    <Copyright>© IntelliTect 2018</Copyright>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/IntelliTect/AspNetCore.TestHost.WindowsAuth</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageId>IntelliTect.TestHost.WindowsAuth</PackageId>
+    <Authors>IntelliTect-Nuget</Authors>
+    <Company>IntelliTect</Company>
+    <Description>This project aims to emulate the functionality provided by IIS Integration in an ASP.NET Core project that uses Windows Authentication for the purposes of testing with ASP.NET Core's TestServer from Microsoft.AspNetCore.TestHost.  It provides real, authenticated Windows Auth capabilities - not just a mock of such. The WindowsIdentity of the WindowsPrincipal that will be signed into your application can use all normal behaviors, including .Impersonate().</Description>
+    <PackageTags>IntelliTect aspnet web core authentication testing</PackageTags>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="README.md" />
+    <None Include="..\LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>
 
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
   </ItemGroup>
 </Project>

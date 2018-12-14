@@ -1,4 +1,18 @@
-﻿using System;
+﻿// Copyright 2018 IntelliTect
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Net;
@@ -7,7 +21,7 @@ using System.Security.Principal;
 
 namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
-    internal static class WindowsIdentityFactory
+    internal static partial class WindowsIdentityFactory
     {
         // Store credentials keyed by a GUID so that we don't have to serialize actual credentials into HTTP headers.
         private static readonly ConcurrentDictionary<Guid, NetworkCredential> CredentialStore
@@ -45,12 +59,14 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 
             if (string.Equals(nameParts[0], creds.Domain, StringComparison.InvariantCultureIgnoreCase)
                 && string.Equals(nameParts[1], creds.UserName, StringComparison.InvariantCultureIgnoreCase))
+            {
                 return currentIdentity;
+            }
 
             // Current identity isn't the droid that we were looking for. Get rid of it.
             currentIdentity.Dispose();
 
-            if (Win32.LogonUser(
+            if (NativeMethods.LogonUser(
                 creds.UserName, creds.Domain, creds.Password,
                 2 /*LOGON32_LOGON_INTERACTIVE*/, // Required to get a "primary token".
                 0 /*LOGON32_PROVIDER_DEFAULT*/,
@@ -59,29 +75,13 @@ namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
                 var identity = new WindowsIdentity(hToken);
 
                 // No longer needed - WindowsIdentity duplicates this handle in its ctor.
-                Win32.CloseHandle(hToken);
+                NativeMethods.CloseHandle(hToken);
 
                 // This identity needs to be disposed of when the request is done.
                 return identity;
             }
 
             throw new Win32Exception(Marshal.GetLastWin32Error(), $"Unable to log in as user {creds.UserName}");
-        }
-
-        private static class Win32
-        {
-            [DllImport("advapi32.dll", SetLastError = true)]
-            public static extern bool LogonUser(
-                string lpszUsername,
-                string lpszDomain,
-                string lpszPassword,
-                int dwLogonType,
-                int dwLogonProvider,
-                out IntPtr phToken
-            );
-
-            [DllImport("kernel32.dll", SetLastError = true)]
-            public static extern bool CloseHandle(IntPtr hHandle);
         }
     }
 }

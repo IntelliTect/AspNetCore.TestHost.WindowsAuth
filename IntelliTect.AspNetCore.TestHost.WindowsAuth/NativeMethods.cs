@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Runtime.InteropServices;
 
-namespace IntelliTect.AspNetCore.TestHost.WindowsAuth.WebExample
+namespace IntelliTect.AspNetCore.TestHost.WindowsAuth
 {
-    public class Program
+    internal static class NativeMethods
     {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern bool LogonUser(
+            string lpszUsername,
+            string lpszDomain,
+            string lpszPassword,
+            int dwLogonType,
+            int dwLogonProvider,
+            out IntPtr phToken
+        );
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
-        }
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool CloseHandle(IntPtr hHandle);
     }
 }

@@ -1,0 +1,55 @@
+# Build ASP.NET Core project using Azure Pipelines
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
+
+trigger:
+- master
+- release/*
+
+pr:
+- master
+- release/*
+
+pool:
+  vmImage: 'vs2017-win2016'
+  
+variables:
+  buildConfiguration: 'Release'
+  version: 2.2.0
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    arguments: -c $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
+  condition: succeeded()
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    arguments: -c $(buildConfiguration)
+    projects: '**/*Test.csproj'
+
+- task: DotNetCoreCLI@2
+  condition: succeeded()
+  displayName: 'dotnet pack'
+  inputs: 
+    command: pack
+    configuration: $(buildConfiguration)
+    verbosityPack: minimal
+    arguments: --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:Version=$(version)
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
+  condition: succeeded()
+
+- task: NuGetCommand@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
+  displayName: 'nuget push'
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'IntelliTect-Nuget-Feed'
+    versioningScheme: byEnvVar
+    versionEnvVar: version
